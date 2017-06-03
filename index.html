@@ -1,0 +1,113 @@
+<!doctype html>
+<html ng-app="carfaxApp">
+
+<head>
+    <meta charset="utf-8">
+    <title ng-controller="titleController">{{ title }} | Carfax</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="styles/vendor.5176d799.css">
+    <link rel="stylesheet" href="styles/main.7494ebfa.css">
+    <script src="scripts/modernizr.custom.min.js"></script>
+</head>
+
+<body ng-controller="bodyController" class="page page--{{ bodyClass }}">
+    <header class="page-header" style="z-index:601">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <nav class="navbar">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                            <a class="navbar-brand" href="#"><img src="images/logo.d815a4f4.png" width="200" height="37"></a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="active"><a href="#">Used Cars for Sale</a></li>
+                                <li><a href="#">Find a Dealer</a></li>
+                                <li><a href="#">Car Research</a></li>
+                                <li><a href="#">Car Guides</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Community</a></li>
+                                <li><a href="#">Order Reports</a></li>
+                            </ul>
+                        </div>
+                        <div id="dropdownTrigger" class="dropdown icon--my-profile" uib-dropdown auto-close="outsideClick">
+                            <a uib-dropdown-toggle id="account-button"><img src="images/my-profile.1594e0b8.png" width="22" height="22" style="display:block"></a>
+                            <div role="menu" aria-labelledby="account-button" uib-dropdown-menu>
+                                <div class="account-dropdown">
+                                    <div class="well">
+                                        <ul class="account-list list-unstyled">
+                                            <li> <a>Account</a> </li>
+                                            <li> <a>Used Car Listings</a> </li>
+                                            <li> <a>Vehicle History Reports</a> </li>
+                                            <li> <a>Service &amp; Maintenance</a> </li>
+                                            <li> <a>History Based Value</a> </li>
+                                            <li> <a>Sell My Car</a> </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="followingTrigger" class="hidden-lg hidden-md">
+                            <a id="followingHearts" style="font-size:12px;color:#fff"><img src="images/double-heart.d17b19b0.png" width="23" height="16"> 3</a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="cars-searches-box" ng-controller="AccountCtrl">
+                <div class="container dropdown" uib-dropdown auto-close="outsideClick"> <a class="cars-searches-button" id="carsSearches" uib-dropdown-toggle ng-class="{ 'active' : following.length >= 1 }"> Cars &amp; Searches <span>{{ following.length }}</span> </a>
+                    <div id="carsDropdown" role="menu" aria-labelledby="carsSearches" uib-dropdown-menu>
+                        <ul class="nav nav-tabs nav-justified" role="tablist">
+                            <li role="presentation" class="active"><a data-target="#following" aria-controls="following" role="tab" data-toggle="tab">Following Cars ({{following.length}})</a></li>
+                            <li role="presentation"><a data-target="#searches" aria-controls="searches" role="tab" data-toggle="tab">Saved Searches (0)</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active" id="following">
+                                <div class="scroll-box scroll-box--bordered">
+                                    <div class="scroll-box__scroll">
+                                        <div class="hide">
+                                            <p>Start following a car and get notified when the price drops!</p>
+                                            <button type="button" class="btn btn-default btn-sm">
+                                                <svg class="icon icon-email" width="14" height="10">
+                                                    <use xlink:href="#icon-email"></use>
+                                                </svg> Message</button>
+                                        </div>
+                                        <div class="account-following">
+                                            <ul class="list-unstyled">
+                                                <li ng-repeat="car in following = (cars | filter:{following:true})">
+                                                    <div class="media">
+                                                        <div class="media-left"> <img src="{{ car.photo }}" width="80" ng-click="viewCar(car.id)" style="cursor:pointer"> </div>
+                                                        <div class="media-body">
+                                                            <h6>${{ car.price | number:0 }}</h6> <small>{{ car.year }} {{ car.make }} {{ car.model }} {{ car.trim }}</small> <small class="account-following__count" ng-class="{ 'active' : car.following === true }" ng-click="followCar(car.id)">{{ car.followingCount }}</small> </div>
+                                                    </div>
+                                                </li>
+                                                <li ng-hide="following.length">No cars</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <footer>
+                                        <button type="button" class="btn btn-primary btn-stretch" ng-disabled="following.length < 2" data-template-url="views/compare-modal.html" data-placement="bottom" data-animation="am-slide-bottom" bs-aside="aside" data-container="body">Compare Cars</button>
+                                    </footer>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="searches">
+                                <div class="scroll-box scroll-box--bordered">
+                                    <div class="scroll-box__scroll">
+                                        <div style="padding: 16px"> <img src="images/saved-searches.7c1ece95.png" class="img-responsive"> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div ui-view class="div-ui-view"></div>
+    <div ng-include src="'views/main-footer.html'"></div>
+    <script src="scripts/vendor.b6ce293a.js"></script>
+    <script src="scripts/scripts.84fe380c.js"></script>
+</body>
+
+</html>
